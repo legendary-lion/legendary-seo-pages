@@ -82,11 +82,17 @@ setTimeout( function(){
 .blog-img img {
     filter: drop-shadow(0px 1px 8px rgba(0, 0, 0, 0.25));
     width: 100%;
+	
 }
 
 .blog-img img {
     filter: drop-shadow(0px 1px 8px rgba(0, 0, 0, 0.25));
     width: 100%;
+}
+
+.blog-img {
+    border: 20px solid #fff;
+    box-shadow: 0px 1px 8px rgb(0 0 0 / 25%);
 }
 
 @media all and (max-width: 1470px) and (min-width:1000px) {
