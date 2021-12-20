@@ -3,7 +3,7 @@
 Plugin Name:	Legendary SEO Pages
 Plugin URI:		http://www.legendarylion.com
 Description:	This plugin houses all of the SEO landing pages for the Legendary Organic SEO Program.
-Version:		4.0
+Version:		1.0.0
 Updated:		2021-12-18
 Author:			Legendary Lion
 Author URI:		http://www.legendarylion.com
