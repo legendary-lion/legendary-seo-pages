@@ -82,7 +82,7 @@ add_action('admin_menu', 'll_seo_pages_options_page');
  */
 function legendary_seo_styles() {
 
-    wp_register_style( 'legendary-seo-styles',  plugin_dir_url( __FILE__ ) . 'css/legendary-seo-styles.css' );
+    wp_register_style( 'legendary-seo-styles',  plugin_dir_url( __FILE__ ) . '../css/legendary-seo-styles.css' );
     wp_enqueue_style( 'legendary-seo-styles' );
 
 }
@@ -170,7 +170,7 @@ function ll_get_custom_page_template($template) {
 			
 		} else {
 			
-			$template = dirname( __FILE__ ) . '/templates/full-width-page.php';
+			$template = plugin_dir_path( __FILE__ ) . '../templates/full-width-page.php';
 		}
 	}
 	

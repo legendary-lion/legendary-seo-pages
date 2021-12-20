@@ -12,9 +12,9 @@ License:		All rights reserved.
 
 require 'plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/legendary-lion/legendary-toolkit',
+	'https://github.com/legendary-lion/legendary-seo-pages',
 	__FILE__,
-	'legendary-toolkit'
+	'legendary-seo-pages'
 );
 $myUpdateChecker->setBranch('master');
 $myUpdateChecker->getVcsApi()->enableReleaseAssets();
@@ -101,42 +101,42 @@ function ll_marketing_add_data() {
 	echo 'Visit logged successfully. ✌';
 
 
-	// temporary function to load a bunch of records to test
-	$counter = 0;
-	$limit = 10;
+	// // temporary function to load a bunch of records to test
+	// $counter = 0;
+	// $limit = 10;
 
-	while($counter < $limit){
+	// while($counter < $limit){
 
-		//Start point of our date range.
-		$start = strtotime("10 September 2019");
+	// 	//Start point of our date range.
+	// 	$start = strtotime("10 September 2019");
 
-		//End point of our date range.
-		$end = strtotime("today");
+	// 	//End point of our date range.
+	// 	$end = strtotime("today");
 
-		//Custom range.
-		$timestamp = mt_rand($start, $end);
+	// 	//Custom range.
+	// 	$timestamp = mt_rand($start, $end);
 
-		//Print it out.
-		$time = date("Y-m-d", $timestamp);
+	// 	//Print it out.
+	// 	$time = date("Y-m-d", $timestamp);
 
-		// add visitor to table
-		$wpdb->insert( 
-				$table_name, 
-				array( 
-						// 'time' => current_time( 'mysql' ), 
-						'time' => $time, 
-						'ip_address' => $ip_address, 
-						'name' => $name, 
-						'location' => '', 
-						'url' => $url, 
-					) 
-				);
+	// 	// add visitor to table
+	// 	$wpdb->insert( 
+	// 			$table_name, 
+	// 			array( 
+	// 					// 'time' => current_time( 'mysql' ), 
+	// 					'time' => $time, 
+	// 					'ip_address' => $ip_address, 
+	// 					'name' => $name, 
+	// 					'location' => '', 
+	// 					'url' => $url, 
+	// 				) 
+	// 			);
 
-		echo 'Visit logged successfully. ✌';
+	// 	echo 'Visit logged successfully. ✌';
 
-		$counter++;
+	// 	$counter++;
 
-	}
+	// }
 
 
 	// we're calling this by AJAX - so do this to stop WP after completing the function (else wp returns '0')
