@@ -70,6 +70,11 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 	<h1>Legendary SEO Reports</h1>
 	<hr/>
 	<?php
+
+	if($all_time_counter != 0):
+	?>
+
+	<?php
 	// get the last item in the array
 	$last_item = (array) end($retrieve_data);
 	?>
@@ -121,6 +126,11 @@ if( ! class_exists( 'WP_List_Table' ) ) {
 	</table>
 
 </div>
+<?php
 
+else:?>
+<p>No results to report yet...</p>
+
+<?php endif;?>
 <?php
 }
