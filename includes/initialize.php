@@ -89,6 +89,7 @@ function legendary_seo_styles() {
 add_action( 'wp_enqueue_scripts', 'legendary_seo_styles' );
 
 
+
 // Create database for user tracking 
 
 global $ll_marketing_tracker_db_version;
@@ -117,8 +118,7 @@ function ll_marketing_tracker_install() {
 
 	add_option( 'll_marketing_tracker_db_version', $ll_marketing_tracker_db_version );
 }
-register_activation_hook( __FILE__, 'll_marketing_tracker_install' );
-
+register_activation_hook( LLSEOPAGES_MAIN_FILE_PATH, 'll_marketing_tracker_install' );
 
 
 // function ll_marketing_tracker_install_data() {

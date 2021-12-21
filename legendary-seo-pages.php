@@ -10,6 +10,9 @@ Author URI:		http://www.legendarylion.com
 License:		All rights reserved.
 */
 
+// define path to easily include functions with path requirements
+define('LLSEOPAGES_MAIN_FILE_PATH', __FILE__);
+
 require 'plugin-update-checker/plugin-update-checker.php';
 $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/legendary-lion/legendary-seo-pages',
@@ -24,7 +27,6 @@ $myUpdateChecker->getVcsApi()->enableReleaseAssets();
 include( plugin_dir_path( __FILE__ ) . 'includes/initialize.php');
 include( plugin_dir_path( __FILE__ ) . 'views/reports.php');
 include( plugin_dir_path( __FILE__ ) . 'views/admin-settings.php');
-
 
 
 function list_seo_pages() {
