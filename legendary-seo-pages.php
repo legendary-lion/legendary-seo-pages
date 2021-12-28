@@ -3,7 +3,7 @@
 Plugin Name:	Legendary SEO Pages
 Plugin URI:		http://www.legendarylion.com
 Description:	This plugin houses all of the SEO landing pages for the Legendary Organic SEO Program.
-Version:		1.0.43
+Version:		1.0.44
 Updated:		2021-12-20
 Author:			Legendary Lion
 Author URI:		http://www.legendarylion.com
@@ -102,7 +102,6 @@ function ll_marketing_add_data() {
 
 	echo 'Visit logged successfully. ✌';
 
-
 	// // temporary function to load a bunch of records to test
 	// $counter = 0;
 	// $limit = 10;
@@ -146,12 +145,7 @@ function ll_marketing_add_data() {
 }
 
 // allow the ll_marketing_add_data function to run users
-if ( is_admin() ) {
-	// for admins -- this causes a 400 error if commented out when visiting the page -- leaving in for now since the IP will only be logged once
-	add_action( 'wp_ajax_ll_marketing_add_data', 'll_marketing_add_data' );
-
-} else {
-
-	// for non-logged in users
-	add_action( 'wp_ajax_nopriv_ll_marketing_add_data', 'll_marketing_add_data' );
-}
+// for admins -- this causes a 400 error if commented out when visiting the page -- leaving in for now since the IP will only be logged once (returns 0)
+add_action( 'wp_ajax_ll_marketing_add_data', 'll_marketing_add_data' );
+// for non-logged in users
+add_action( 'wp_ajax_nopriv_ll_marketing_add_data', 'll_marketing_add_data' );
