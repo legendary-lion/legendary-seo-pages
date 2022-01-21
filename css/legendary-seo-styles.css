@@ -38,7 +38,12 @@ span.legendary-link-pipe {
 	color:#bdbdbd;
 }
 
-
+.legendary-footer-links{
+	background:black;
+	color:white;
+	text-align:center;
+	font-size:12px;
+}
 
 .ll-post-image {
 	width: 50%;

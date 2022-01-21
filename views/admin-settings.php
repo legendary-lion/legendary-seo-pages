@@ -7,6 +7,9 @@ function ll_seo_register_settings() {
 	add_option( 'll_seo_option_template');
 	register_setting( 'll_seo_options_group', 'll_seo_option_template');
 
+	add_option( 'll_seo_inject_page_links_to_footer');
+	register_setting( 'll_seo_options_group', 'll_seo_inject_page_links_to_footer');
+
 	add_option( 'll_seo_option_template_cta_first');
 	register_setting( 'll_seo_options_group', 'll_seo_option_template_cta_first');
 
@@ -30,12 +33,16 @@ function ll_seo_options_page_callback() {
 		  	<?php settings_fields( 'll_seo_options_group' ); ?>
 		  	<table cellpadding="10">
 				<tr>
-					<th scope="row"><label for="ll_seo_option_template">Use custom page template override? </label></th>
-					<td><input type="checkbox" id="ll_seo_option_template" name="ll_seo_option_template" value="1" <?php checked( '1', get_option( 'll_seo_option_template' ) ); ?> /></td>
+					<td style="text-align:left;" ><input type="checkbox" id="ll_seo_option_template" name="ll_seo_option_template" value="1" <?php checked( '1', get_option( 'll_seo_option_template' ) );  ?> /></td>
+					<th style="text-align:left;" scope="row"><label for="ll_seo_option_template">Use custom page template override? </label></th>
+				</tr>
+				<p><small>This option will check your <u>Parent Theme</u> and <u>Child Theme</u> for page template:</small> <b>legendary_seo_template.php</b></p>
+				<tr>
+					<td style="text-align:left;" ><input type="checkbox" id="ll_seo_inject_page_links_to_footer" name="ll_seo_inject_page_links_to_footer" value="1" <?php checked( '1', get_option( 'll_seo_inject_page_links_to_footer' ) ); ?> /></td>
+					<th style="text-align:left;"  scope="row"><label for="ll_seo_inject_page_links_to_footer">Inject page links to footer? </label></th>
 				</tr>
 		  	</table>
 
-		  	<p><small>This option will check your <u>Parent Theme</u> and <u>Child Theme</u> for page template:</small> <b>legendary_seo_template.php</b></p>
 		  	<p><b><u>Shortcodes / Options</u></b></p>
 		  	<p><small>Footer Links<br />echo do_shortcode("[list-seo-pages]");</small></p><hr>
 		  	<p><small>CTA Above Content<br />get_option('ll_seo_option_template_cta_first');</small></p><hr>

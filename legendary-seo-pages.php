@@ -31,8 +31,6 @@ include( plugin_dir_path( __FILE__ ) . 'views/admin-settings.php');
 
 function list_seo_pages() {
 
-	  ob_start();
-
 		  $args = array(
 		    'post_type' => 'seopages',
 		    'title_li'    => '',
@@ -57,8 +55,6 @@ function list_seo_pages() {
 		echo $theContent;
 
 		echo '</ul>';
-
-		return ob_get_clean();
 }
 add_shortcode('list-seo-pages', 'list_seo_pages');
 
@@ -229,5 +225,10 @@ function wpse69369_special_thingy()
 	<?php
 	
 	}
+	
+}
 
+// if the option is checked in plugin settings to inject footer links, do that now
+if(get_option('ll_seo_inject_page_links_to_footer') == true){
+	add_action('wp_footer', 'list_seo_pages');
 }
