@@ -149,3 +149,85 @@ function ll_marketing_add_data() {
 add_action( 'wp_ajax_ll_marketing_add_data', 'll_marketing_add_data' );
 // for non-logged in users
 add_action( 'wp_ajax_nopriv_ll_marketing_add_data', 'll_marketing_add_data' );
+
+// add_action('wp_dashboard_setup', 'my_custom_dashboard_widgets');
+  
+// function my_custom_dashboard_widgets() {
+// global $wp_meta_boxes;
+ 
+// wp_add_dashboard_widget('custom_help_widget', 'Legendary SEO Pages', 'custom_dashboard_help');
+// }
+ 
+// function custom_dashboard_help() {
+// 	ll_seo_reports_page_callback();
+// }
+
+
+
+add_action( 'wp_enqueue_scripts', 'wpse69369_special_thingy' );
+function wpse69369_special_thingy()
+{
+    if ('seopages' === get_post_type() && is_singular()){
+		// wp_enqueue_script( 'legendary-seo-tracker', '/wp-content/plugins/legendary-seo-pages/js/tracking.js', '', '', false);
+        // return print "Yo World!";
+
+		$traffic_source = "Organic SEO Lead";
+		if(isset($_GET['source'])){
+			$traffic_source = $_GET['source'];
+		}
+
+		// add cookie to users browser to customize the rest of the browsing experience on the site
+		setcookie(
+			'll_marketing_tracker',
+			$traffic_source,
+			strtotime("+1 year"),
+		);
+
+		$ip_address = '';
+		if (isset($_SERVER['HTTP_CLIENT_IP'])) {
+			$ip_address = $_SERVER['HTTP_CLIENT_IP'];
+		} else if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+			$ip_address = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else if (isset($_SERVER['HTTP_X_FORWARDED'])) {
+			$ip_address = $_SERVER['HTTP_X_FORWARDED'];
+		} else if (isset($_SERVER['HTTP_FORWARDED_FOR'])) {
+			$ip_address = $_SERVER['HTTP_FORWARDED_FOR'];
+		} else if (isset($_SERVER['HTTP_FORWARDED'])) {
+			$ip_address = $_SERVER['HTTP_FORWARDED'];
+		} else if (isset($_SERVER['REMOTE_ADDR'])) {
+			$ip_address = $_SERVER['REMOTE_ADDR'];
+		} else {
+			$ip_address = 'UNKNOWN';
+		}
+
+		$url = $_SERVER['REQUEST_URI'];
+		?>
+		<script>
+
+			// vanilla javascript to call to the function to add an entry to the db, this should be set to 2000 by default
+			let time = 2000
+			setTimeout( function(){
+				// alert('Waited for... ' + time / 1000 + ' seconds.')
+				// call function from javascript
+				
+				var data = {
+					'action': 'll_marketing_add_data',
+					'ip_address': '<?php echo $ip_address;?>',
+					'name': '<?php echo $traffic_source;?>',
+					'url': '<?php echo $url;?>',
+
+				};
+				var ajax_url = "<?php echo admin_url('admin-ajax.php');?>";
+
+				// We can also pass the url value separately from ajaxurl for front end AJAX implementations
+				jQuery.post(ajax_url, data, function(response) {
+					console.log(response);
+				});
+
+			}, time);
+		</script>
+	<?php
+	
+	}
+
+}
