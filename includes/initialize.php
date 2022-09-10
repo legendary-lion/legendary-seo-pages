@@ -4,7 +4,7 @@
 function ll_seo_pages_post_type() {
 
 	$labels = array(
-	'name'                => _x( 'Legendary Search Engine Optimization Pages', 'Post Type General Name', 'text_domain' ),
+	'name'                => _x( 'Legendary SEO Pages', 'Post Type General Name', 'text_domain' ),
 	'singular_name'       => _x( 'SEO Page', 'Post Type Singular Name', 'text_domain' ),
 	'menu_name'           => __( 'Legendary SEO', 'text_domain' ),
 	'parent_item_colon'   => __( 'Parent Page:', 'text_domain' ),
@@ -39,7 +39,8 @@ function ll_seo_pages_post_type() {
 		'exclude_from_search' => true,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'supports' => array( 'title', 'editor', 'thumbnail', 'revisions' )
+		'supports' => array( 'title', 'editor', 'thumbnail', 'revisions' ),
+		'has_archive' => false,
 	);
 
 	register_post_type( 'SEO Pages', $args );
