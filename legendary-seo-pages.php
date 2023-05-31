@@ -14,18 +14,19 @@ License:		All rights reserved.
 define('LLSEOPAGES_MAIN_FILE_PATH', __FILE__);
 
 require 'plugin-update-checker/plugin-update-checker.php';
-$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+$myLegendarySEOUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/legendary-lion/legendary-seo-pages',
 	__FILE__,
 	'legendary-seo-pages'
 );
-$myUpdateChecker->setBranch('master');
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
+$myLegendarySEOUpdateChecker->setBranch('master');
+$myLegendarySEOUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 
 // all includes
 include( plugin_dir_path( __FILE__ ) . 'includes/initialize.php');
-include( plugin_dir_path( __FILE__ ) . 'views/reports.php');
+// temporarily removing reports until we can figure out how to only count authentic conversions (not just visits) -- 2023-05-31 AC
+// include( plugin_dir_path( __FILE__ ) . 'views/reports.php');
 include( plugin_dir_path( __FILE__ ) . 'views/admin-settings.php');
 
 
