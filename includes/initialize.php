@@ -4,7 +4,7 @@
 function ll_seo_pages_post_type() {
 
 	$labels = array(
-	'name'                => _x( 'Legendary SEO Pages', 'Post Type General Name', 'text_domain' ),
+	'name'                => _x( 'Legendary Search Engine Optimization Pages', 'Post Type General Name', 'text_domain' ),
 	'singular_name'       => _x( 'SEO Page', 'Post Type Singular Name', 'text_domain' ),
 	'menu_name'           => __( 'Legendary SEO', 'text_domain' ),
 	'parent_item_colon'   => __( 'Parent Page:', 'text_domain' ),
@@ -39,15 +39,40 @@ function ll_seo_pages_post_type() {
 		'exclude_from_search' => true,
 		'publicly_queryable'  => true,
 		'capability_type'     => 'post',
-		'supports' => array( 'title', 'editor', 'thumbnail', 'revisions' ),
-		'has_archive' => false,
+		// 'rewrite' => array('slug' => '.', 'with_front' => false),
+        // 'rewrite' => array(
+        //     'slug' => 'seopages', // or set to something neutral like '/'
+        //     'with_front' => false
+        // ),
+        'rewrite' => false,
+		'supports' => array( 'title', 'editor', 'thumbnail', 'revisions' )
+		
 	);
 
-	register_post_type( 'SEO Pages', $args );
-	// activate the below function only when 404 errors are present after registering the custom post type
-	// flush_rewrite_rules();
+	register_post_type( 'seopages', $args );
+
 }
 add_action( 'init', 'll_seo_pages_post_type', 99 );
+
+
+
+function ll_seo_pages_rewrite_rule() {
+    add_rewrite_rule('^([^/]+)/?$', 'index.php?seopages=$matches[1]', 'top');
+}
+add_action('init', 'll_seo_pages_rewrite_rule', 10, 0);
+
+function ll_seo_pages_post_type_link($post_link, $post) {
+    if ('seopages' === $post->post_type) {
+        return home_url('/' . $post->post_name . '/');
+    }
+    return $post_link;
+}
+add_filter('post_type_link', 'll_seo_pages_post_type_link', 10, 2);
+
+
+
+flush_rewrite_rules();
+
 
 
 // set up options page
@@ -64,20 +89,6 @@ add_action('admin_menu', 'll_seo_pages_options_page');
 
 
 
-
-// /**
-//  * Proper way to enqueue scripts and styles
-//  */
-// function ll_seo_pages_scripts() {
-
-//     wp_enqueue_style( 'style-name', get_stylesheet_uri() );
-//     // wp_enqueue_script( 'script-name', get_template_directory_uri() . '/js/example.js', array(), '1.0.0', true );
-
-// }
-// add_action( 'wp_enqueue_scripts', 'll_seo_pages_scripts' );
-
-
-
 /**
  * Include CSS file
  */
@@ -88,60 +99,6 @@ function legendary_seo_styles() {
 
 }
 add_action( 'wp_enqueue_scripts', 'legendary_seo_styles' );
-
-
-
-// Create database for user tracking 
-
-global $ll_marketing_tracker_db_version;
-$ll_marketing_tracker_db_version = '1.0';
-
-function ll_marketing_tracker_install() {
-	global $wpdb;
-	global $ll_marketing_tracker_db_version;
-
-	$table_name = $wpdb->prefix . 'll_marketing_tracker';
-	
-	$charset_collate = $wpdb->get_charset_collate();
-
-	$sql = "CREATE TABLE $table_name (
-		id mediumint(9) NOT NULL AUTO_INCREMENT,
-		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		name tinytext NOT NULL,
-		url varchar(55) DEFAULT '' NOT NULL,
-		location varchar(55) DEFAULT '' NOT NULL,
-		ip_address varchar(55) DEFAULT '' NOT NULL,
-		PRIMARY KEY  (id)
-	) $charset_collate;";
-
-	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-	dbDelta( $sql );
-
-	add_option( 'll_marketing_tracker_db_version', $ll_marketing_tracker_db_version );
-}
-register_activation_hook( LLSEOPAGES_MAIN_FILE_PATH, 'll_marketing_tracker_install' );
-
-
-// function ll_marketing_tracker_install_data() {
-// 	global $wpdb;
-
-// 	$welcome_name = 'Mr. WordPress';
-// 	$url = 'https://www.awesome.com/test-page/';
-
-// 	$table_name = $wpdb->prefix . 'll_marketing_tracker';
-
-// 	$wpdb->insert( 
-// 			$table_name, 
-// 			array( 
-// 					'time' => current_time( 'mysql' ), 
-// 					'ip_address' => $_SERVER['REMOTE_ADDR'], 
-// 					'name' => $welcome_name, 
-// 					'location' => '', 
-// 					'url' => $url, 
-// 				) 
-// 			);
-// }
-// register_activation_hook( __FILE__, 'll_marketing_tracker_install_data' );
 
 
 // add admin css styles
@@ -180,32 +137,122 @@ function ll_get_custom_page_template($template) {
 add_filter('template_include', 'll_get_custom_page_template', 99);
 
 
-// rewrite the slug out of the url
-function seo_pages_remove_slug( $post_link, $post, $leavename ) {
 
-    if ( 'seopages' != $post->post_type || 'publish' != $post->post_status ) {
+// // Create database for user tracking 
 
-        return $post_link;
+// global $ll_marketing_tracker_db_version;
+// $ll_marketing_tracker_db_version = '1.0';
 
-    }
+// function ll_marketing_tracker_install() {
+// 	global $wpdb;
+// 	global $ll_marketing_tracker_db_version;
 
-    $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+// 	$table_name = $wpdb->prefix . 'll_marketing_tracker';
+	
+// 	$charset_collate = $wpdb->get_charset_collate();
 
-    return $post_link;
+// 	$sql = "CREATE TABLE $table_name (
+// 		id mediumint(9) NOT NULL AUTO_INCREMENT,
+// 		time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
+// 		name tinytext NOT NULL,
+// 		url varchar(55) DEFAULT '' NOT NULL,
+// 		location varchar(55) DEFAULT '' NOT NULL,
+// 		ip_address varchar(55) DEFAULT '' NOT NULL,
+// 		PRIMARY KEY  (id)
+// 	) $charset_collate;";
 
-}
-add_filter( 'post_type_link', 'seo_pages_remove_slug', 10, 3 );
+// 	require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+// 	dbDelta( $sql );
+
+// 	add_option( 'll_marketing_tracker_db_version', $ll_marketing_tracker_db_version );
+// }
+// register_activation_hook( LLSEOPAGES_MAIN_FILE_PATH, 'll_marketing_tracker_install' );
 
 
-// prevent 404 when requesting without a namespaced slug
-function seo_pages_request( $query ) {
+// function ll_marketing_tracker_install_data() {
+// 	global $wpdb;
 
-    if ( ! $query->is_main_query() || 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
-        return;
-    }
+// 	$welcome_name = 'Mr. WordPress';
+// 	$url = 'https://www.awesome.com/test-page/';
 
-    if ( ! empty( $query->query['name'] ) ) {
-        $query->set( 'post_type', array( 'post', 'seopages', 'page' ) );
-    }
-}
-add_action( 'pre_get_posts', 'seo_pages_request' );
+// 	$table_name = $wpdb->prefix . 'll_marketing_tracker';
+
+// 	$wpdb->insert( 
+// 			$table_name, 
+// 			array( 
+// 					'time' => current_time( 'mysql' ), 
+// 					'ip_address' => $_SERVER['REMOTE_ADDR'], 
+// 					'name' => $welcome_name, 
+// 					'location' => '', 
+// 					'url' => $url, 
+// 				) 
+// 			);
+// }
+// register_activation_hook( __FILE__, 'll_marketing_tracker_install_data' );
+
+
+// // add admin css styles
+// // Update CSS within in Admin (remove eye in SEO Yoast preview)
+// function my_custom_fonts() {
+	
+// 	echo '<style>
+// 	.snippet-editor__heading-icon-eye{
+// 		background:transparent !important;
+//     } 
+// 	.yoast-section__heading-icon{
+// 		padding-left: 45px !important;
+// 	}
+// 	</style>';
+// }
+// add_action('admin_head', 'my_custom_fonts');
+
+
+// // Template Redirect and Custom Template Options Check
+// function ll_get_custom_page_template($template) {
+// 	if( is_singular('seopages') ) {
+// 		$ll_template_setting_value = get_option('ll_seo_option_template');
+// 		if ( $ll_template_setting_value == '1' ){
+
+// 			$locate = locate_template('legendary_seo_template.php');
+// 			$template = $locate;
+			
+// 		} else {
+			
+// 			$template = plugin_dir_path( __FILE__ ) . '../templates/full-width-page.php';
+// 		}
+// 	}
+	
+// 	return $template;
+// }
+// add_filter('template_include', 'll_get_custom_page_template', 99);
+
+
+// // rewrite the slug out of the url
+// function seo_pages_remove_slug( $post_link, $post, $leavename ) {
+
+//     if ( 'seopages' != $post->post_type || 'publish' != $post->post_status ) {
+
+//         return $post_link;
+
+//     }
+
+//     $post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+
+//     return $post_link;
+
+// }
+// add_filter( 'post_type_link', 'seo_pages_remove_slug', 10, 3 );
+
+
+// // prevent 404 when requesting without a namespaced slug
+// function seo_pages_request( $query ) {
+
+//     if ( ! $query->is_main_query() || 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
+//         return;
+//     }
+
+//     if ( ! empty( $query->query['name'] ) ) {
+//         $query->set( 'post_type', array( 'post', 'seopages', 'page' ) );
+//     }
+// }
+// add_action( 'pre_get_posts', 'seo_pages_request' );
