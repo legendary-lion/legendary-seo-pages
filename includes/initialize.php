@@ -44,7 +44,7 @@ function ll_seo_pages_post_type() {
         //     'slug' => 'seopages', // or set to something neutral like '/'
         //     'with_front' => false
         // ),
-        'rewrite' => false,
+		'rewrite' => array('slug' => '/', 'with_front' => false),
 		'supports' => array( 'title', 'editor', 'thumbnail', 'revisions' )
 		
 	);
@@ -53,22 +53,6 @@ function ll_seo_pages_post_type() {
 
 }
 add_action( 'init', 'll_seo_pages_post_type', 99 );
-
-
-
-function ll_seo_pages_rewrite_rule() {
-    add_rewrite_rule('^seopages/([^/]+)/?$', 'index.php?seopages=$matches[1]', 'top');
-}
-add_action('init', 'll_seo_pages_rewrite_rule', 10, 0);
-
-function ll_seo_pages_post_type_link($post_link, $post) {
-    if ('seopages' === $post->post_type) {
-        return home_url('/seopages/' . $post->post_name . '/');
-    }
-    return $post_link;
-}
-add_filter('post_type_link', 'll_seo_pages_post_type_link', 10, 2);
-
 
 
 
