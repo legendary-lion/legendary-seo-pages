@@ -44,7 +44,9 @@ function ll_seo_pages_post_type() {
         //     'slug' => 'seopages', // or set to something neutral like '/'
         //     'with_front' => false
         // ),
-		'rewrite' => array('slug' => '/', 'with_front' => false),
+		// 'rewrite' => array('slug' => '/', 'with_front' => false),
+		'rewrite' => array('slug' => 'lp', 'with_front' => false),
+
 		'supports' => array( 'title', 'editor', 'thumbnail', 'revisions' )
 		
 	);
